@@ -12,7 +12,7 @@ and then looks up the one you want given the input variables
 ## Input variables
 
   * region - E.g. eu-central-1
-  * version - E.g. 14.04
+  * version - E.g. 14.12
   * type -  s3/hvm/ebs
 
 ## Outputs
@@ -24,7 +24,7 @@ and then looks up the one you want given the input variables
     module "ami" {
       source = "github.com/terraform-community-modules/tf_aws_nixos_ami"
       region = "eu-central-1"
-      version = "14.05"
+      version = "14.12"
       type = "hvm"
     }
 
