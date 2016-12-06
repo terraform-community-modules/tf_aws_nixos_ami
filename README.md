@@ -1,19 +1,15 @@
 tf_aws_nixos_ami
-=================
+================
 
 Terraform module to get the current set of publicly available nixos AMIs.
 
-This module grabs all of the AMIs listed at:
-
-    https://nixos.org/wiki/NixOS_on_Amazon_EC2
-
-and then looks up the one you want given the input variables
-
 ## Input variables
 
-  * region - E.g. eu-central-1
-  * version - E.g. 14.12
-  * type -  s3/hvm/ebs
+  * release - E.g. 16.04
+  * root_device_type - ebs | instance-store
+  * virtualization_type - hvm | paravirtual
+
+NOTE: the AWS region is selected when configuring the aws provider.
 
 ## Outputs
 
@@ -23,9 +19,7 @@ and then looks up the one you want given the input variables
 
     module "ami" {
       source = "github.com/terraform-community-modules/tf_aws_nixos_ami"
-      region = "eu-central-1"
-      version = "14.12"
-      type = "hvm"
+      release = "16.04"
     }
 
     resource "aws_instance" "web" {

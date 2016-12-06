@@ -1,10 +1,49 @@
-variable "region" {}
-variable "version" {
-  default = "14.12"
+### Inputs ###
+
+variable "release" {
+  description = "NixOS release"
+  default     = "16.09"
 }
-variable "type" {}
+
+# Valid values: ebs, instance-store
+variable "root_device_type" {
+  description = "Root device type"
+  default     = "ebs"
+}
+
+# Valid values: hvm, paravirtual
+variable "virtualization_type" {
+  description = "Virtualization type"
+  default     = "hvm"
+}
+
+### Main ###
+
+data "aws_ami" "x" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["nixos-${var.release}*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["${var.virtualization_type}"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["${var.root_device_type}"]
+  }
+
+  owners = [
+    "080433136561",
+  ]
+}
+
+### Output ###
 
 output "ami_id" {
-    value = "${lookup(var.all_amis, format(\"%s-%s-%s\", var.version, var.region, var.type))}"
+  value = "${data.aws_ami.x.id}"
 }
-
